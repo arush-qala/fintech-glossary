@@ -151,3 +151,16 @@
 /* Task 14: focus rings for SVG nodes */
 .node:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 .node[tabindex] { cursor: pointer; }
+
+/* Task 15: responsive polish */
+@media (max-width: 640px) {
+  .topbar { gap: 6px; padding: 8px; }
+  .topbar .logo { font-size: var(--fs-16); }
+  .topbar .tab { padding: 4px 8px; font-size: var(--fs-11); }
+  .topbar .lens { margin-left: 0; width: 100%; order: 10; justify-content: center; }
+  .hintbar { display: none; }
+}
+@media (max-width: 1023px) {
+  .sidebar .label { margin-bottom: var(--s-1); font-size: var(--fs-10); }
+  .sidebar { padding: 10px 12px; }
+}
