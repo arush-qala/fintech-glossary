@@ -4,6 +4,7 @@ import * as sidebar from "/js/sidebar.js";
 import * as flowRenderer from "/js/flow-renderer.js";
 import * as detail from "/js/detail-pane.js";
 import * as controls from "/js/controls.js";
+import * as search from "/js/search.js";
 
 async function boot() {
   await state.load();
@@ -14,6 +15,7 @@ async function boot() {
   flowRenderer.init(document.querySelector("[data-flowpane]"));
   detail.init(document.querySelector("[data-detail]"));
   controls.init();
+  search.init(document.querySelector("[data-search]"));
 }
 
 boot().catch(err => {
