@@ -1,1 +1,196 @@
-[]
+[
+  {
+    "id": "b2b-xborder",
+    "title": "B2B cross-border — GBP → EUR via Wise Business",
+    "scenario": "A UK SME pays a German supplier €950. Wise receives GBP via Faster Payments, converts at mid-market, pays out via SEPA Instant.",
+    "steps": [
+      { "termId": "pseudo-payer-sme",  "narration": "The SME initiates a £820 top-up from its Barclays account, destined for Wise." },
+      { "termId": "faster-payments",    "narration": "Faster Payments moves the £820 from Barclays to Wise's GBP safeguarded account in ~15 seconds." },
+      { "termId": "payment-provider",   "narration": "Wise Business receives the GBP, verifies the SME's KYB status, and routes to the FX engine." },
+      { "termId": "mid-market-rate",    "narration": "Wise applies the 10:00 GMT mid-market rate (GBP/EUR = 1.1732) and charges a transparent 0.43% fee." },
+      { "termId": "sepa-instant",       "narration": "Wise releases €950 via SEPA Instant to the supplier's Deutsche Bank account." },
+      { "termId": "pseudo-beneficiary", "narration": "The supplier sees €950 credited in under 10 seconds. Meanwhile Wise posts the movement to its GL." },
+      { "termId": "general-ledger",     "narration": "GL entries: DR Client Funds GBP £820, CR FX Position GBP £820; DR FX Position EUR €950, CR Client Funds EUR €950. Books balance." }
+    ],
+    "layout": [
+      { "termId": "pseudo-payer-sme",   "x": 40,  "y": 110, "w": 110, "h": 44, "label": "UK SME", "sublabel": "GBP account" },
+      { "termId": "faster-payments",    "x": 180, "y": 30,  "w": 110, "h": 44, "label": "Faster Payments", "sublabel": "UK rail" },
+      { "termId": "payment-provider",   "x": 180, "y": 190, "w": 110, "h": 44, "label": "Wise Business", "sublabel": "PSP" },
+      { "termId": "mid-market-rate",    "x": 320, "y": 110, "w": 110, "h": 44, "label": "Mid-market FX", "sublabel": "Wise FX engine" },
+      { "termId": "sepa-instant",       "x": 460, "y": 30,  "w": 110, "h": 44, "label": "SEPA Instant", "sublabel": "EU rail" },
+      { "termId": "general-ledger",     "x": 460, "y": 190, "w": 110, "h": 44, "label": "General Ledger", "sublabel": "Wise books" },
+      { "termId": "pseudo-beneficiary", "x": 580, "y": 110, "w": 50,  "h": 44, "label": "DE Bank", "sublabel": "Supplier" }
+    ],
+    "edges": [
+      { "from": "pseudo-payer-sme", "to": "faster-payments" },
+      { "from": "faster-payments", "to": "payment-provider" },
+      { "from": "payment-provider", "to": "mid-market-rate" },
+      { "from": "mid-market-rate", "to": "sepa-instant" },
+      { "from": "mid-market-rate", "to": "general-ledger" },
+      { "from": "sepa-instant", "to": "pseudo-beneficiary" }
+    ]
+  },
+
+  {
+    "id": "card",
+    "title": "Card payment — contactless tap at a UK café",
+    "scenario": "A customer taps a Visa debit card for £6.50. Gateway, processor, acquirer, network, issuer — all touched in seconds.",
+    "steps": [
+      { "termId": "pseudo-cardholder",  "narration": "Customer taps a Visa debit card on the contactless terminal." },
+      { "termId": "payment-gateway",    "narration": "The terminal + gateway encrypt the card data and tokenise the PAN so the merchant never sees the 16 digits." },
+      { "termId": "payment-processor",  "narration": "The processor packages the £6.50 auth request and sends it to Visa." },
+      { "termId": "card-network",       "narration": "Visa routes the auth to the cardholder's issuer based on the BIN." },
+      { "termId": "issuer",             "narration": "The issuing bank checks balance, fraud, and 3DS/SCA exemptions, then replies APPROVED." },
+      { "termId": "acquirer",           "narration": "The approval flows back through the network to the processor and acquirer. The café's receipt prints APPROVED." },
+      { "termId": "settlement",         "narration": "At end of day the acquirer batches all auths and submits for settlement. Two days later £6.43 (net of interchange + acquirer fee) lands in the café's bank." },
+      { "termId": "clearing-account",   "narration": "In the café's books: DR Stripe Clearing £6.50 on sale day; DR Cash £6.43, DR Fees £0.07, CR Stripe Clearing £6.50 on settlement day." }
+    ],
+    "layout": [
+      { "termId": "pseudo-cardholder",  "x": 30,  "y": 110, "w": 90,  "h": 44, "label": "Cardholder", "sublabel": "Visa card" },
+      { "termId": "payment-gateway",    "x": 145, "y": 110, "w": 100, "h": 44, "label": "Gateway", "sublabel": "Checkout" },
+      { "termId": "payment-processor",  "x": 270, "y": 110, "w": 100, "h": 44, "label": "Processor", "sublabel": "Worldpay" },
+      { "termId": "card-network",       "x": 395, "y": 40,  "w": 100, "h": 44, "label": "Card Network", "sublabel": "Visa" },
+      { "termId": "issuer",             "x": 520, "y": 40,  "w": 100, "h": 44, "label": "Issuer", "sublabel": "Lloyds" },
+      { "termId": "acquirer",           "x": 395, "y": 180, "w": 100, "h": 44, "label": "Acquirer", "sublabel": "Barclaycard" },
+      { "termId": "settlement",         "x": 520, "y": 180, "w": 100, "h": 44, "label": "Settlement", "sublabel": "T+2" },
+      { "termId": "clearing-account",   "x": 270, "y": 210, "w": 100, "h": 34, "label": "Clearing A/C", "sublabel": "Café books" }
+    ],
+    "edges": [
+      { "from": "pseudo-cardholder", "to": "payment-gateway" },
+      { "from": "payment-gateway", "to": "payment-processor" },
+      { "from": "payment-processor", "to": "card-network" },
+      { "from": "card-network", "to": "issuer" },
+      { "from": "issuer", "to": "card-network" },
+      { "from": "card-network", "to": "acquirer" },
+      { "from": "acquirer", "to": "settlement" },
+      { "from": "payment-processor", "to": "clearing-account" }
+    ]
+  },
+
+  {
+    "id": "ach",
+    "title": "ACH / domestic — UK salary via Faster Payments",
+    "scenario": "A UK employer pays £3,200 net salary to an employee. Same logical flow as ACH but over Faster Payments.",
+    "steps": [
+      { "termId": "pseudo-employer",    "narration": "The employer submits a payroll batch at 5pm Thursday." },
+      { "termId": "faster-payments",    "narration": "Each payment is pushed as a separate Faster Payment — real-time, 24/7, unlike US ACH batching." },
+      { "termId": "psd2",               "narration": "The employer bank authenticates the batch under PSD2 SCA (a corporate token)." },
+      { "termId": "settlement",         "narration": "Funds settle between the two banks via the Bank of England RTGS rails behind Faster Payments." },
+      { "termId": "pseudo-employee",    "narration": "The employee sees £3,200 credited within 30 seconds, even though it's past banking hours." }
+    ],
+    "layout": [
+      { "termId": "pseudo-employer",  "x": 40,  "y": 110, "w": 110, "h": 44, "label": "UK Employer", "sublabel": "Payroll batch" },
+      { "termId": "faster-payments",  "x": 190, "y": 70,  "w": 110, "h": 44, "label": "Faster Payments", "sublabel": "Instant rail" },
+      { "termId": "psd2",             "x": 190, "y": 160, "w": 110, "h": 44, "label": "PSD2 / SCA", "sublabel": "Auth" },
+      { "termId": "settlement",       "x": 340, "y": 110, "w": 110, "h": 44, "label": "BoE RTGS", "sublabel": "Settlement" },
+      { "termId": "pseudo-employee",  "x": 490, "y": 110, "w": 110, "h": 44, "label": "Employee", "sublabel": "Current a/c" }
+    ],
+    "edges": [
+      { "from": "pseudo-employer", "to": "faster-payments" },
+      { "from": "pseudo-employer", "to": "psd2" },
+      { "from": "psd2", "to": "faster-payments" },
+      { "from": "faster-payments", "to": "settlement" },
+      { "from": "settlement", "to": "pseudo-employee" }
+    ]
+  },
+
+  {
+    "id": "swift",
+    "title": "SWIFT wire — $50k USA → India, 2 correspondent hops",
+    "scenario": "A Miami firm wires $50,000 to an Indonesian supplier. Two correspondent banks in between, sanctions screening at every hop.",
+    "steps": [
+      { "termId": "pseudo-us-bank",       "narration": "The Miami bank debits the sender and prepares an ISO 20022 payment message." },
+      { "termId": "iso-20022",            "narration": "Rich structured data travels with the payment — invoice reference, purpose code, full supplier address." },
+      { "termId": "swift",                "narration": "SWIFT carries the message to JPMorgan (the sender's USD correspondent)." },
+      { "termId": "correspondent-banking","narration": "JPMorgan receives the message and posts to its nostro/vostro accounts." },
+      { "termId": "nostro-vostro",        "narration": "The Miami bank's nostro USD account at JPMorgan is debited $50k; Standard Chartered Singapore's vostro at JPMorgan is credited." },
+      { "termId": "sanctions-screening",  "narration": "Each correspondent screens names against OFAC and UN lists; a false positive here can cost 48 hours." },
+      { "termId": "fx-spread",            "narration": "Standard Chartered converts USD → IDR, pocketing a ~2% spread on top of mid-market." },
+      { "termId": "pseudo-id-bank",       "narration": "The Indonesian bank credits the supplier. Total elapsed: 2 business days. Total fees: ~$75 visible + ~$1,000 invisible (spread)." }
+    ],
+    "layout": [
+      { "termId": "pseudo-us-bank",       "x": 20,  "y": 110, "w": 90,  "h": 40, "label": "US bank", "sublabel": "Miami" },
+      { "termId": "iso-20022",            "x": 130, "y": 30,  "w": 100, "h": 40, "label": "ISO 20022", "sublabel": "Message" },
+      { "termId": "swift",                "x": 130, "y": 110, "w": 100, "h": 40, "label": "SWIFT", "sublabel": "Network" },
+      { "termId": "correspondent-banking","x": 250, "y": 70,  "w": 110, "h": 42, "label": "Correspondent", "sublabel": "JPM NY" },
+      { "termId": "nostro-vostro",        "x": 250, "y": 160, "w": 110, "h": 42, "label": "Nostro / Vostro", "sublabel": "Accounts" },
+      { "termId": "sanctions-screening",  "x": 380, "y": 30,  "w": 110, "h": 40, "label": "Sanctions", "sublabel": "Screening" },
+      { "termId": "fx-spread",            "x": 380, "y": 190, "w": 110, "h": 40, "label": "FX Spread", "sublabel": "USD → IDR" },
+      { "termId": "pseudo-id-bank",       "x": 510, "y": 110, "w": 120, "h": 40, "label": "ID bank", "sublabel": "Beneficiary" }
+    ],
+    "edges": [
+      { "from": "pseudo-us-bank", "to": "iso-20022" },
+      { "from": "pseudo-us-bank", "to": "swift" },
+      { "from": "iso-20022", "to": "correspondent-banking" },
+      { "from": "swift", "to": "correspondent-banking" },
+      { "from": "correspondent-banking", "to": "nostro-vostro" },
+      { "from": "correspondent-banking", "to": "sanctions-screening" },
+      { "from": "nostro-vostro", "to": "fx-spread" },
+      { "from": "sanctions-screening", "to": "pseudo-id-bank" },
+      { "from": "fx-spread", "to": "pseudo-id-bank" }
+    ]
+  },
+
+  {
+    "id": "payfac",
+    "title": "PayFac — Shopify onboards a new sub-merchant",
+    "scenario": "A boutique signs up for Shopify, accepts its first card within 5 minutes. Shopify Payments is the PayFac.",
+    "steps": [
+      { "termId": "pseudo-sub-merchant", "narration": "The boutique owner signs up and enters a business name, EIN, and bank account." },
+      { "termId": "kyb",                 "narration": "Shopify runs KYB checks automatically — Companies House lookup, UBO verification, director ID." },
+      { "termId": "payfac",              "narration": "Shopify Payments enrols the boutique under its own master merchant agreement with the acquirer — no separate contract needed." },
+      { "termId": "pci-dss",             "narration": "The boutique never touches card data — Shopify's gateway handles it, so the boutique qualifies for the simplest PCI scope (SAQ A)." },
+      { "termId": "payment-processor",  "narration": "First card sale: £40 processed by Stripe (Shopify's underlying processor)." },
+      { "termId": "interchange",         "narration": "Interchange of ~£0.20 flows to the issuer; scheme fee, processor fee, and Shopify's margin come off the top." },
+      { "termId": "pay-out",             "narration": "Two days later the net ~£39.00 lands in the boutique's bank via a daily Shopify Payments pay-out." }
+    ],
+    "layout": [
+      { "termId": "pseudo-sub-merchant", "x": 30,  "y": 110, "w": 110, "h": 44, "label": "Boutique", "sublabel": "Sub-merchant" },
+      { "termId": "kyb",                 "x": 170, "y": 30,  "w": 100, "h": 44, "label": "KYB", "sublabel": "Onboarding" },
+      { "termId": "payfac",              "x": 170, "y": 180, "w": 100, "h": 44, "label": "PayFac", "sublabel": "Shopify Pay" },
+      { "termId": "pci-dss",             "x": 300, "y": 30,  "w": 100, "h": 44, "label": "PCI DSS", "sublabel": "SAQ A" },
+      { "termId": "payment-processor",   "x": 300, "y": 180, "w": 100, "h": 44, "label": "Processor", "sublabel": "Stripe" },
+      { "termId": "interchange",         "x": 430, "y": 110, "w": 100, "h": 44, "label": "Interchange", "sublabel": "~0.5%" },
+      { "termId": "pay-out",             "x": 560, "y": 110, "w": 80,  "h": 44, "label": "Pay-out", "sublabel": "T+2" }
+    ],
+    "edges": [
+      { "from": "pseudo-sub-merchant", "to": "kyb" },
+      { "from": "pseudo-sub-merchant", "to": "payfac" },
+      { "from": "kyb", "to": "pci-dss" },
+      { "from": "payfac", "to": "payment-processor" },
+      { "from": "payment-processor", "to": "interchange" },
+      { "from": "pci-dss", "to": "interchange" },
+      { "from": "interchange", "to": "pay-out" }
+    ]
+  },
+
+  {
+    "id": "ar-ap",
+    "title": "AR / AP cycle — invoice raised, paid, booked",
+    "scenario": "A SaaS vendor invoices a UK customer £1,200. The customer pays 14 days later. Both sides' books move.",
+    "steps": [
+      { "termId": "accounts-receivable", "narration": "Vendor issues invoice on 1 March. Vendor books: DR AR £1,200, CR Revenue £1,200 (accrual)." },
+      { "termId": "accounts-payable",    "narration": "Customer receives invoice. Customer books: DR Software Expense £1,200, CR AP £1,200." },
+      { "termId": "expense-code",        "narration": "Customer's AP clerk codes the invoice to GL 6200 (Software) — controls how it appears in the P&L." },
+      { "termId": "faster-payments",     "narration": "On 15 March the customer's finance team releases the payment via Faster Payments." },
+      { "termId": "reconciliation",      "narration": "Both sides' bank statements show the £1,200 move. The AP clerk does a three-way match: invoice ↔ GL ↔ bank." },
+      { "termId": "general-ledger",      "narration": "Customer books: DR AP £1,200, CR Cash £1,200. Vendor books: DR Cash £1,200, CR AR £1,200. Both sets of books balance again." }
+    ],
+    "layout": [
+      { "termId": "accounts-receivable", "x": 30,  "y": 40,  "w": 120, "h": 44, "label": "AR", "sublabel": "Vendor books" },
+      { "termId": "accounts-payable",    "x": 30,  "y": 180, "w": 120, "h": 44, "label": "AP", "sublabel": "Customer books" },
+      { "termId": "expense-code",        "x": 180, "y": 180, "w": 110, "h": 44, "label": "Expense Code", "sublabel": "GL 6200" },
+      { "termId": "faster-payments",     "x": 330, "y": 110, "w": 110, "h": 44, "label": "Faster Payments", "sublabel": "Rail" },
+      { "termId": "reconciliation",      "x": 470, "y": 40,  "w": 130, "h": 44, "label": "Reconciliation", "sublabel": "3-way match" },
+      { "termId": "general-ledger",      "x": 470, "y": 180, "w": 130, "h": 44, "label": "General Ledger", "sublabel": "Both sides" }
+    ],
+    "edges": [
+      { "from": "accounts-receivable", "to": "faster-payments" },
+      { "from": "accounts-payable", "to": "expense-code" },
+      { "from": "expense-code", "to": "faster-payments" },
+      { "from": "faster-payments", "to": "reconciliation" },
+      { "from": "faster-payments", "to": "general-ledger" },
+      { "from": "reconciliation", "to": "general-ledger" }
+    ]
+  }
+]
