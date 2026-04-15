@@ -3,13 +3,17 @@ import * as topbar from "/js/topbar.js";
 import * as sidebar from "/js/sidebar.js";
 import * as flowRenderer from "/js/flow-renderer.js";
 import * as detail from "/js/detail-pane.js";
+import * as controls from "/js/controls.js";
 
 async function boot() {
   await state.load();
+  document.querySelector("[data-hintbar]").innerHTML =
+    `Keyboard: <kbd>→</kbd> next · <kbd>←</kbd> back · <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> lens · <kbd>g</kbd> next flow · <kbd>/</kbd> search`;
   topbar.init(document.querySelector("[data-topbar]"));
   sidebar.init(document.querySelector("[data-sidebar]"));
   flowRenderer.init(document.querySelector("[data-flowpane]"));
   detail.init(document.querySelector("[data-detail]"));
+  controls.init();
 }
 
 boot().catch(err => {
