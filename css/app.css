@@ -164,3 +164,8 @@
   .sidebar .label { margin-bottom: var(--s-1); font-size: var(--fs-10); }
   .sidebar { padding: 10px 12px; }
 }
+
+/* Task 16: reduced motion — disable dashed edge animation */
+@media (prefers-reduced-motion: reduce) {
+  .edge.active { stroke-dasharray: none; }
+}
