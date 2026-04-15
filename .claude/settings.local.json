@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/arushsinhal/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/skills/brainstorming/**)",
+      "Bash(/Users/arushsinhal/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/skills/brainstorming/scripts/start-server.sh --project-dir \"/Users/arushsinhal/Library/CloudStorage/OneDrive-Personal/Arush - London Business School/Companies/Resume Versions/2026/Superprof Freelance Projects/Fintech terminologies\")"
+    ]
+  }
+}
