@@ -147,3 +147,7 @@
 @media (max-width: 640px) {
   .flowpane svg { height: 420px; }
 }
+
+/* Task 14: focus rings for SVG nodes */
+.node:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.node[tabindex] { cursor: pointer; }

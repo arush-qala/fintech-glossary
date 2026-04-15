@@ -13,6 +13,11 @@ export function init(root) {
     const g = e.target.closest("g[data-term]");
     if (g) state.set({ selectedTermId: g.dataset.term });
   });
+  root.addEventListener("keydown", e => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const g = e.target.closest("g[data-term]");
+    if (g) { e.preventDefault(); state.set({ selectedTermId: g.dataset.term }); }
+  });
 }
 
 function render(root) {
