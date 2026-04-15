@@ -1,9 +1,9 @@
 import * as state from "/js/state.js";
+import * as topbar from "/js/topbar.js";
 
 async function boot() {
   await state.load();
-  console.log("loaded", state.get().terms.length, "terms,", state.get().flows.length, "flows");
-  console.log("active flow:", state.activeFlow().title);
+  topbar.init(document.querySelector("[data-topbar]"));
 }
 
 boot().catch(err => {
