@@ -6,6 +6,7 @@
   padding: var(--s-4);
   display: flex; flex-direction: column; gap: var(--s-4);
   min-height: 100vh;
+  --gl-header-offset: 72px;
 }
 
 .gl-header {
@@ -33,7 +34,7 @@
 .gl-hero p { font-size: var(--fs-16); color: var(--ink-2); line-height: var(--lh-body); max-width: 56ch; }
 
 .gl-stickybar {
-  position: sticky; top: 72px; z-index: 4;
+  position: sticky; top: var(--gl-header-offset); z-index: 4;
   background: var(--paper);
   padding: var(--s-3) 0;
 }
@@ -123,7 +124,6 @@
 }
 
 /* ───── card body layout ───── */
-.gl-card-body { padding: 0 var(--s-4) var(--s-4); }
 .gl-body-grid {
   display: grid;
   grid-template-columns: 320px 1fr;
@@ -183,4 +183,69 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .gl-card.gl-pulse { animation: none; }
+}
+
+/* ───── sticky filter bar ───── */
+.gl-sticky-inner {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  padding: var(--s-3); display: flex; flex-direction: column; gap: var(--s-2);
+  box-shadow: var(--shadow-1);
+}
+.gl-searchwrap {
+  position: relative;
+  display: flex; align-items: center;
+}
+.gl-search {
+  flex: 1;
+  padding: 10px 40px 10px 14px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-family: var(--ff-sans); font-size: var(--fs-14); color: var(--ink);
+  transition: border-color var(--dur-1) var(--ease), background var(--dur-1) var(--ease);
+}
+.gl-search::placeholder { color: var(--ink-3); }
+.gl-search:focus {
+  outline: none; border-color: var(--teal); background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(13,148,136,.15);
+}
+.gl-searchkbd {
+  position: absolute; right: 10px;
+  padding: 1px 6px; border: 1px solid var(--line); border-radius: var(--r-sm);
+  background: var(--paper-warm); font-family: var(--ff-mono); font-size: var(--fs-11); color: var(--ink-3);
+  pointer-events: none;
+}
+
+.gl-chiprow {
+  display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
+}
+.gl-dchip {
+  padding: 6px 12px; border-radius: var(--r-pill);
+  background: var(--surface); color: var(--ink-2);
+  font-size: var(--fs-12);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
+}
+.gl-dchip:hover { background: var(--paper-warm); }
+.gl-dchip[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); font-weight: 600; }
+.gl-dcount { opacity: .7; font-variant-numeric: tabular-nums; margin-left: 4px; font-size: var(--fs-11); }
+
+.gl-empty {
+  margin-top: var(--s-3);
+  padding: var(--s-4);
+  background: var(--paper-warm); border: 1px dashed var(--line);
+  border-radius: var(--r-md);
+  font-size: var(--fs-13); color: var(--ink-2); text-align: center;
+}
+.gl-empty-reset {
+  margin-left: 8px;
+  color: var(--teal); font-weight: 600; background: transparent; border: 0;
+  cursor: pointer; text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .gl-chiprow { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
+  .gl-dchip { flex: 0 0 auto; }
 }
