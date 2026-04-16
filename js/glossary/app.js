@@ -1,22 +1,25 @@
 import { renderClosedCard, DOMAIN_LABEL, DOMAIN_ORDER } from "/js/glossary/term-card.js";
 
 async function init() {
-  const [terms, glossary] = await Promise.all([
+  const [terms, glossary, flows] = await Promise.all([
     fetch("/data/terms.json").then(r => r.json()),
     fetch("/data/glossary.json").then(r => r.json()),
+    fetch("/data/flows.json").then(r => r.json()),
   ]);
 
-  const glossaryById = new Map(glossary.map(g => [g.id, g]));
+  const context = {
+    terms,
+    glossary,
+    flows,
+    termsById: new Map(terms.map(t => [t.id, t])),
+    glossaryById: new Map(glossary.map(g => [g.id, g])),
+    flowsById: new Map(flows.map(f => [f.id, f])),
+  };
 
-  // Group by domain
   const byDomain = {};
   for (const d of DOMAIN_ORDER) byDomain[d] = [];
-  for (const t of terms) {
-    if (byDomain[t.domain]) byDomain[t.domain].push(t);
-  }
-  for (const d of DOMAIN_ORDER) {
-    byDomain[d].sort((a, b) => a.name.localeCompare(b.name));
-  }
+  for (const t of terms) if (byDomain[t.domain]) byDomain[t.domain].push(t);
+  for (const d of DOMAIN_ORDER) byDomain[d].sort((a, b) => a.name.localeCompare(b.name));
 
   const main = document.querySelector("[data-main]");
   main.innerHTML = "";
@@ -35,8 +38,8 @@ async function init() {
     `;
     const cardsRoot = section.querySelector("[data-cards]");
     for (const term of group) {
-      const plain = glossaryById.get(term.id)?.plain || "";
-      cardsRoot.appendChild(renderClosedCard(term, plain));
+      const plain = context.glossaryById.get(term.id)?.plain || "";
+      cardsRoot.appendChild(renderClosedCard(term, plain, context));
     }
     main.appendChild(section);
   }

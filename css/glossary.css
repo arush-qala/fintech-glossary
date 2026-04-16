@@ -121,3 +121,54 @@
   font-size: var(--fs-14);
   line-height: var(--lh-body);
 }
+
+/* ───── card body layout ───── */
+.gl-card-body { padding: 0 var(--s-4) var(--s-4); }
+.gl-body-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: var(--s-4);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--line-soft);
+}
+.gl-anim {
+  aspect-ratio: 320 / 200;
+  background: var(--paper-warm); border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; position: relative;
+}
+.gl-anim-placeholder { font-size: var(--fs-11); color: var(--ink-3); letter-spacing: .12em; text-transform: uppercase; }
+
+.gl-body-text { display: flex; flex-direction: column; gap: var(--s-3); min-width: 0; }
+.gl-block h4 {
+  font-size: var(--fs-10); text-transform: uppercase; letter-spacing: .14em;
+  color: var(--ink-3); font-weight: 700; margin-bottom: 4px;
+}
+.gl-block p { font-size: var(--fs-14); color: var(--ink-2); line-height: var(--lh-body); }
+
+.gl-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.gl-chip {
+  padding: 3px 10px; border-radius: var(--r-pill);
+  background: var(--paper-warm); color: var(--ink-2);
+  font-size: var(--fs-11); border: 1px solid var(--line);
+  text-decoration: none;
+  transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
+}
+.gl-chip:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+.gl-see-live {
+  display: inline-block;
+  padding: 8px 14px; border-radius: var(--r-md);
+  background: var(--teal-tint); color: var(--teal);
+  font-size: var(--fs-12); font-weight: 600;
+  border: 1px solid var(--teal-line);
+  text-decoration: none;
+  transition: background var(--dur-1) var(--ease);
+}
+.gl-see-live:hover { background: #cffafe; }
+
+@media (max-width: 720px) {
+  .gl-body-grid { grid-template-columns: 1fr; }
+  .gl-anim { aspect-ratio: 16 / 10; }
+}
