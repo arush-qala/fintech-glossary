@@ -259,3 +259,12 @@
   .gl-svg animateTransform { display: none !important; }
   .gl-svg .gl-fee rect { y: attr(y); }
 }
+
+.gl-anim-placeholder,
+.gl-anim-fallback {
+  font-size: 28px;
+  color: var(--ink-3);
+  opacity: 0.5;
+}
+.gl-anim-fallback { font-size: 36px; }
+.gl-card.gl-offscreen .gl-svg * { animation-play-state: paused !important; }

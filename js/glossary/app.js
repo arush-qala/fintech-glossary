@@ -1,6 +1,7 @@
-import { renderClosedCard, DOMAIN_LABEL, DOMAIN_ORDER } from "/js/glossary/term-card.js";
+import { renderClosedCard, DOMAIN_LABEL, DOMAIN_ORDER, mountAnimation } from "/js/glossary/term-card.js";
 import * as router from "/js/glossary/router.js";
 import * as searchFilter from "/js/glossary/search-filter.js";
+import * as registry from "/js/glossary/animations/registry.js";
 
 async function init() {
   const [terms, glossary, flows] = await Promise.all([
@@ -45,6 +46,24 @@ async function init() {
     }
     main.appendChild(section);
   }
+
+  // Mount animations on first expand, pause when closed via an IntersectionObserver.
+  document.addEventListener("toggle", (e) => {
+    const card = e.target;
+    if (!(card instanceof HTMLDetailsElement) || !card.classList.contains("gl-card")) return;
+    if (card.open) {
+      mountAnimation(card, registry);
+      card.classList.remove("gl-offscreen");
+    }
+  }, true);
+
+  // Pause animations when card is open but scrolled off screen (performance).
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      e.target.classList.toggle("gl-offscreen", !e.isIntersecting);
+    }
+  }, { rootMargin: "200px" });
+  document.querySelectorAll(".gl-card").forEach(c => io.observe(c));
 
   const stickybar = document.querySelector("[data-stickybar]");
   searchFilter.init(stickybar, terms);

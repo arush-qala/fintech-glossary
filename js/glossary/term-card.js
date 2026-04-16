@@ -105,3 +105,22 @@ function shortFlow(title) { return title.split(" — ")[0]; }
 function escape(s) {
   return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c]));
 }
+
+// Called by app.js on first card expand. Swaps placeholder for animation SVG.
+export async function mountAnimation(cardEl, registry) {
+  const termId = cardEl.dataset.termId;
+  const holder = cardEl.querySelector(`[data-anim-for="${termId}"]`);
+  if (!holder || holder.dataset.mounted === "true") return;
+  holder.dataset.mounted = "true";
+
+  if (!registry.has(termId)) {
+    holder.innerHTML = `<div class="gl-anim-fallback">🪙</div>`;
+    return;
+  }
+  const svg = await registry.load(termId);
+  if (!svg) {
+    holder.innerHTML = `<div class="gl-anim-fallback">🪙</div>`;
+    return;
+  }
+  holder.innerHTML = svg;
+}
