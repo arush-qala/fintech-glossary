@@ -249,3 +249,13 @@
   .gl-chiprow { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
   .gl-dchip { flex: 0 0 auto; }
 }
+
+.gl-anim { background: var(--paper); }
+.gl-svg { width: 100%; height: 100%; display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gl-svg animate,
+  .gl-svg animateMotion,
+  .gl-svg animateTransform { display: none !important; }
+  .gl-svg .gl-fee rect { y: attr(y); }
+}
