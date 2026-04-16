@@ -18,6 +18,7 @@ function render(root) {
         <button role="tab" aria-selected="${l === s.lens}" data-lens="${l}">${capitalize(l)}</button>
       `).join("")}
     </div>
+    <a class="gl-link" href="/glossary.html">Glossary ↗</a>
   `;
   root.querySelectorAll("[data-flow]").forEach(btn => {
     btn.addEventListener("click", () => {

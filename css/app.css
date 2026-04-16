@@ -45,6 +45,15 @@
   padding: 4px 10px; font-size: var(--fs-11); color: var(--ink-2); border-radius: var(--r-pill);
 }
 .topbar .lens button[aria-selected="true"] { background: var(--ink); color: #fff; font-weight: 600; }
+.topbar .gl-link {
+  margin-left: var(--s-2);
+  padding: 6px 12px; border-radius: var(--r-pill);
+  background: var(--teal-tint); color: var(--teal);
+  font-size: var(--fs-12); font-weight: 600; text-decoration: none;
+  border: 1px solid var(--teal-line);
+  transition: background var(--dur-1) var(--ease);
+}
+.topbar .gl-link:hover { background: #cffafe; }
 
 /* ───── sidebar ───── */
 .sidebar {
