@@ -268,3 +268,12 @@
 }
 .gl-anim-fallback { font-size: 36px; }
 .gl-card.gl-offscreen .gl-svg * { animation-play-state: paused !important; }
+
+.gl-card-summary:focus-visible,
+.gl-chip:focus-visible,
+.gl-see-live:focus-visible,
+.gl-dchip:focus-visible,
+.gl-navlink:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
