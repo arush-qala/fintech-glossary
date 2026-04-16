@@ -1,4 +1,5 @@
 import { renderClosedCard, DOMAIN_LABEL, DOMAIN_ORDER } from "/js/glossary/term-card.js";
+import * as router from "/js/glossary/router.js";
 
 async function init() {
   const [terms, glossary, flows] = await Promise.all([
@@ -43,6 +44,8 @@ async function init() {
     }
     main.appendChild(section);
   }
+
+  router.init();
 }
 
 init().catch(err => {

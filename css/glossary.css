@@ -172,3 +172,15 @@
   .gl-body-grid { grid-template-columns: 1fr; }
   .gl-anim { aspect-ratio: 16 / 10; }
 }
+
+.gl-card.gl-pulse {
+  animation: gl-pulse-anim 1400ms var(--ease);
+}
+@keyframes gl-pulse-anim {
+  0%   { box-shadow: 0 0 0 0 rgba(13,148,136,.45); border-left-color: var(--teal); }
+  60%  { box-shadow: 0 0 0 8px rgba(13,148,136,0); border-left-color: var(--teal); }
+  100% { box-shadow: 0 0 0 0 rgba(13,148,136,0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gl-card.gl-pulse { animation: none; }
+}
