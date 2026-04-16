@@ -1,0 +1,56 @@
+/* ───── glossary page shell ───── */
+.glossary-body { background: var(--paper); color: var(--ink); }
+.glossary {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--s-4);
+  display: flex; flex-direction: column; gap: var(--s-4);
+  min-height: 100vh;
+}
+
+.gl-header {
+  display: flex; align-items: center; gap: var(--s-4);
+  padding: var(--s-3) var(--s-4);
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  position: sticky; top: var(--s-3); z-index: 5;
+}
+.gl-header .logo { font-family: var(--ff-serif); font-size: var(--fs-18); }
+.gl-header .logo em { color: var(--teal); font-style: normal; }
+.gl-nav { margin-left: auto; display: flex; gap: var(--s-2); }
+.gl-navlink {
+  padding: 6px 12px; border-radius: var(--r-pill);
+  font-size: var(--fs-12); color: var(--ink-2);
+  border: 1px solid var(--line); background: var(--surface);
+  text-decoration: none;
+  transition: background var(--dur-1) var(--ease);
+}
+.gl-navlink:hover { background: var(--paper-warm); }
+.gl-navlink[aria-current="page"] { background: var(--ink); color: #fff; border-color: var(--ink); font-weight: 600; }
+
+.gl-hero { padding: var(--s-4) var(--s-2); }
+.gl-hero h1 { font-family: var(--ff-serif); font-size: var(--fs-36); line-height: var(--lh-tight); margin-bottom: var(--s-2); }
+.gl-hero p { font-size: var(--fs-16); color: var(--ink-2); line-height: var(--lh-body); max-width: 56ch; }
+
+.gl-stickybar {
+  position: sticky; top: 72px; z-index: 4;
+  background: var(--paper);
+  padding: var(--s-3) 0;
+}
+
+.gl-main { display: flex; flex-direction: column; gap: var(--s-6); padding-top: var(--s-2); }
+
+.gl-footer {
+  padding: var(--s-4) var(--s-2); color: var(--ink-3); font-size: var(--fs-12);
+  border-top: 1px solid var(--line-soft); margin-top: var(--s-6);
+}
+.gl-footer kbd {
+  padding: 1px 6px; border: 1px solid var(--line); border-radius: var(--r-sm);
+  background: var(--surface); font-family: var(--ff-mono); font-size: var(--fs-11);
+}
+
+@media (max-width: 600px) {
+  .glossary { padding: var(--s-3); }
+  .gl-header { padding: var(--s-2) var(--s-3); }
+  .gl-hero h1 { font-size: var(--fs-28); }
+}
