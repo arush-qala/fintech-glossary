@@ -54,3 +54,70 @@
   .gl-header { padding: var(--s-2) var(--s-3); }
   .gl-hero h1 { font-size: var(--fs-28); }
 }
+
+/* ───── group ───── */
+.gl-group { display: flex; flex-direction: column; gap: var(--s-2); }
+.gl-group-header {
+  display: flex; align-items: baseline; gap: var(--s-3);
+  padding: 0 var(--s-1) var(--s-2);
+  border-bottom: 1px solid var(--line-soft);
+}
+.gl-group-header h2 {
+  font-family: var(--ff-serif); font-size: var(--fs-22); color: var(--ink);
+}
+.gl-group-count {
+  font-size: var(--fs-11); color: var(--ink-3);
+  background: var(--paper-warm); border: 1px solid var(--line);
+  padding: 2px 8px; border-radius: var(--r-pill);
+  font-variant-numeric: tabular-nums;
+}
+.gl-group-cards { display: flex; flex-direction: column; gap: var(--s-2); }
+
+/* ───── card (closed) ───── */
+.gl-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid transparent;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  transition: border-left-color var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
+}
+.gl-card:hover { border-left-color: var(--teal); }
+.gl-card[open] { box-shadow: var(--shadow-1); border-left-color: var(--teal); }
+
+.gl-card-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: var(--s-3) var(--s-4);
+  display: flex; align-items: center; gap: var(--s-3);
+  user-select: none;
+}
+.gl-card-summary::-webkit-details-marker { display: none; }
+.gl-card-summary:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: -2px;
+  border-radius: var(--r-lg);
+}
+.gl-card-title { flex: 1; min-width: 0; }
+.gl-card-title h3 {
+  font-family: var(--ff-serif); font-size: var(--fs-18);
+  color: var(--ink); line-height: var(--lh-tight);
+}
+.gl-card-sub {
+  font-size: var(--fs-11); color: var(--ink-3);
+  letter-spacing: .02em; margin-top: 2px;
+}
+.gl-card-chev {
+  color: var(--ink-3); font-size: var(--fs-16);
+  transition: transform var(--dur-1) var(--ease);
+  display: inline-block;
+}
+.gl-card[open] .gl-card-chev { transform: rotate(90deg); color: var(--teal); }
+
+/* ───── card body (placeholder for now) ───── */
+.gl-card-body {
+  padding: 0 var(--s-4) var(--s-4);
+  color: var(--ink-2);
+  font-size: var(--fs-14);
+  line-height: var(--lh-body);
+}
